@@ -10,6 +10,11 @@ hints:
  
 baseCommand: [gatk, MarkDuplicates]
 inputs:
+    jave_option:
+        type: string?
+        inputBinding:
+          position: 2
+          prefix: '--java-options'
     input_files:
         type: File
         inputBinding:
