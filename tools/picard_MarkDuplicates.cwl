@@ -11,7 +11,7 @@ hints:
   DockerRequirement:
       dockerPull: broadinstitute/gatk:latest
  
-baseCommand: [gatk, MarkDuplicates]
+baseCommand: [gatk, --java-options, -Xmx4G, MarkDuplicates]
 
 inputs:
     input_files:

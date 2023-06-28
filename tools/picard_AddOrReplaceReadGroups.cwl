@@ -8,7 +8,7 @@ hints:
   DockerRequirement:
       dockerPull: broadinstitute/gatk:latest
 
-baseCommand: [getk, AddOrReplaceReadGroups]
+baseCommand: [gatk, AddOrReplaceReadGroups]
 
 inputs:
   input:
@@ -24,7 +24,7 @@ inputs:
       prefix: '-O'
 
   CREATE_INDEX:
-    default: true
+    default: 'true'
     type: string?
     inputBinding:
       position: 5
