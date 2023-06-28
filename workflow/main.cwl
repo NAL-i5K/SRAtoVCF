@@ -68,13 +68,13 @@ steps:
         run: ../tools/fastqc.cwl
         in:
             input_file: 
-                source: Trimmomatic/R1_fastq_file
+                source: Trimmomatic/R1_trimmed_paired_file
         out: [report_html, report_zip]
     FastQC_R:
         run: ../tools/fastqc.cwl
         in:
             input_file: 
-                source: Trimmomatic/R2_fastq_file
+                source: Trimmomatic/R2_trimmed_paired_file
         out: [report_html, report_zip]
     BWA_mem:
         run: ../tools/bwa_mem.cwl
@@ -108,7 +108,7 @@ steps:
                 valueFrom: ${ return self + "_metrics.txt"}
             output_filename: 
                 source: SRA_accession
-                valueFrom: ${ return self + "markdup.bam"}
+                valueFrom: ${ return self + ".markdup.bam"}
             removeDuplicates: removeDuplicates 
         out: [markDups_output]
     Picard_AddOrReplacereadGroup:
@@ -118,7 +118,7 @@ steps:
                 source: Picard_MarkDuplicates/markDups_output
             output: 
                 source: SRA_accession
-                valueFrom: ${ return self + "markdup_RG.bam"}
+                valueFrom: ${ return self + ".RG.markdup.bam"}
             ReadGroupID: ReadGroupID
             ReadGroupLibrary: ReadGroupLibrary
             ReadGroupPlatform: ReadGroupPlatform
