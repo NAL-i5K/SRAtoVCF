@@ -10,7 +10,7 @@ hints:
   DockerRequirement:
     dockerPull: staphb/trimmomatic:latest
  
-baseCommand:[trimmomatic]
+baseCommand: [trimmomatic]
 
 inputs:
   end_mode:
