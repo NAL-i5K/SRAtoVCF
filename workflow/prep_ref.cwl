@@ -15,22 +15,22 @@ inputs:
 
 steps:
     bwa:
-        run: bwa_index.cwl
+        run: ../tools/bwa_index.cwl
         in: 
           ref_genome: ref_genome
         out: [index_bwa_amb, index_bwa_ann,index_bwa_bwt, index_bwa_pac, index_bwa_sa ]
     samtools:
-        run: samtools_faidx.cwl
+        run: ../tools/samtools_faidx.cwl
         in: 
           ref_genome: ref_genome
         out: [index_sam]
     picard:
-        run: picard_CreateSequenceDictionary.cwl
+        run: ../tools/picard_CreateSequenceDictionary.cwl
         in: 
           ref_genome: ref_genome
         out: [index_picard]
     merge:
-        run: merge_ref.cwl
+        run: ../tools/merge_ref.cwl
         in:
           ref_genome: ref_genome
           ref_bwa_amb:
