@@ -33,6 +33,7 @@ inputs:
       prefix: '--split-files'
   origfmt:
     default: false
+    type: boolean?
     inputBinding:
       position: 5
       prefix: '--origfmt'
