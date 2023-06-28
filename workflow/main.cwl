@@ -57,6 +57,7 @@ steps:
     Trimmomatic:
         run: ../tools/trimmomatic.cwl
         in:
+            log_filename: SRA_accession
             R1_fastq_file: 
                 source: download_sra_file/forward
             R2_fastq_file: 

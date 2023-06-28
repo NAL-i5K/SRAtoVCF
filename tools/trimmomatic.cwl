@@ -19,7 +19,6 @@ inputs:
     inputBinding:
       position: 2
   log_filename:
-    default: $(inputs.R1_fastq_file.nameroot)
     type: string?
     inputBinding:
       position: 3
@@ -99,14 +98,14 @@ outputs:
     type: File
     outputBinding:
       glob: |
-        $(inputs.R1_fastq_file.nameroot + '.trimmed.fastq')
+        $(inputs.log_filename + '.trimmed.fastq')
   R1_trimmed_unpaired_file:
     type: File?
     outputBinding:
       glob: |
         ${
           if (inputs.end_mode == "PE")
-            return inputs.R1_fastq_file.nameroot + '.U.trimmed.fastq';
+            return inputs.log_filename + '.U.trimmed.fastq';
           return null;
         }
   R2_trimmed_paired_file:
@@ -115,7 +114,7 @@ outputs:
       glob: |
         ${
           if (inputs.end_mode == "PE" && inputs.R2_fastq_file)
-            return inputs.R2_fastq_file.nameroot + '.trimmed.fastq';
+            return inputs.log_filename + '.trimmed.fastq';
           return null;
         }
   R2_trimmed_unpaired_file:
@@ -124,33 +123,33 @@ outputs:
       glob: |
         ${
           if (inputs.end_mode == "PE" && inputs.R2_fastq_file)
-            return inputs.R2_fastq_file.nameroot + '.U.trimmed.fastq';
+            return inputs.log_filename + '.U.trimmed.fastq';
           return null;
         }
 
 arguments:
   - position: 8
     valueFrom: >-
-      $(inputs.R1_fastq_file.nameroot + '.trimmed.fastq')
+      $(inputs.log_filename + '.trimmed.fastq')
   - position: 9
     valueFrom: |
       ${
         if (inputs.end_mode == "PE" && inputs.R2_fastq_file)
-          return inputs.R1_fastq_file.nameroot + '.trimmed.U.fastq';
+          return inputs.log_filename + '.trimmed.U.fastq';
         return null;
       }
   - position: 10
     valueFrom: |
       ${
         if (inputs.end_mode == "PE" && inputs.R2_fastq_file)
-          return inputs.R2_fastq_file.nameroot + '.trimmed.fastq';
+          return inputs.log_filename + '.trimmed.fastq';
         return null;
       }
   - position: 11
     valueFrom: |
       ${
         if (inputs.end_mode == "PE" && inputs.R2_fastq_file)
-          return inputs.R2_fastq_file.nameroot + '.trimmed.U.fastq';
+          return inputs.log_filename + '.trimmed.U.fastq';
         return null;
       }
   - position: 12
