@@ -10,24 +10,18 @@ requirements:
 inputs:
     ref_genome:
         type: File
+        secondaryFiles:
+            - .amb
+            - .ann
+            - .bwt
+            - .pac
+            - .sa
+            - .fai
+            - ^.dict  
     SRA_accession:
         type: string 
-    phred:
-        type: string
-    tophred33:
-        type: boolean
-    tophred64:
-        type: boolean
-    slidingwindow:
-        type: string
-    trailing:
-        type: int
-    illuminaclip:
-        type: string
     input_adapters_file:
         type: File
-    minlen:
-        type: int
     removeDuplicates:  
         type: string
     ReadGroupID: 
@@ -49,11 +43,6 @@ inputs:
 
 
 steps:
-    prep_refgenom:
-        run: tools/prep_ref.cwl
-        in: 
-            ref_genome: ref_genome
-        out: [index_ref]
     get_sra_file:
         run: tools/prefetch.cwl
         in: 
@@ -65,46 +54,39 @@ steps:
             SRA_file: 
                 source: get_sra_file/sra_file
         out: [forward, reverse]
+    Trimmomatic:
+        run: tools/trimmomatic.cwl
+        in:
+            R1_fastq_file: 
+                source: download_sra_file/forward
+            R2_fastq_file: 
+                source: download_sra_file/reverse
+            input_adapters_file: input_adapters_file
+        out: [log_file,R1_trimmed_paired_file,R1_trimmed_unpaired_file,R2_trimmed_paired_file,R2_trimmed_unpaired_file]
     FastQC_F:
         run: tools/fastqc.cwl
         in:
             input_file: 
-                source: download_sra_file/forward
+                source: Trimmomatic/R1_fastq_file
         out: [report_html, report_zip]
     FastQC_R:
         run: tools/fastqc.cwl
         in:
             input_file: 
-                source: download_sra_file/reverse
+                source: Trimmomatic/R2_fastq_file
         out: [report_html, report_zip]
-    Trimmomatic:
-        run: tools/trimmomatic.cwl
-        in:
-            phred: phred
-            input_read1_fastq_file: 
-                source: download_sra_file/forward
-            input_read2_fastq_file: 
-                source: download_sra_file/reverse
-            tophred33: tophred33
-            tophred64: tophred64
-            slidingwindow: slidingwindow
-            trailing: trailing
-            illuminaclip: illuminaclip
-            input_adapters_file: input_adapters_file
-            minlen: minlen
-        out: [output_log_file,output_read1_trimmed_paired_file,output_read1_trimmed_unpaired_file,output_read2_trimmed_paired_file,output_read2_trimmed_unpaired_file]
     BWA_mem:
         run: tools/bwa_mem.cwl
         in:
             reference: 
-                source: prep_refgenom/index_ref
+                source: ref_genome
             output_filename: 
                 source: SRA_accession
                 valueFrom: ${ return self + ".sam"}
             read_F:
-                source: Trimmomatic/output_read1_trimmed_paired_file
+                source: Trimmomatic/R1_trimmed_paired_file
             read_R:
-                source: Trimmomatic/output_read2_trimmed_paired_file
+                source: Trimmomatic/R2_trimmed_paired_file
         out: [output]
     Sort_sam:
         run: tools/samtools_sort.cwl
@@ -152,7 +134,7 @@ steps:
                 source: SRA_accession
                 valueFrom: ${ return self + ".vcf.gz"}
             reference: 
-                source: prep_refgenom/index_ref
+                source: ref_genome
             bam_output: 
                 source: SRA_accession
                 valueFrom: ${ return self + "_haplotype.bam"}
@@ -164,7 +146,7 @@ steps:
             vcf_file: 
                 source: GATK_HaplotypeCaller/output_file
             reference: 
-                source: prep_refgenom/index_ref
+                source: ref_genome
             output:
                 source: SRA_accession
                 valueFrom: ${ return self + "_filter.vcf.gz"}
