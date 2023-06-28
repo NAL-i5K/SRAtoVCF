@@ -109,7 +109,7 @@ outputs:
             return inputs.R1_fastq_file.nameroot + '.U.trimmed.fastq';
           return null;
         }
-  output_read2_trimmed_paired_file:
+  R2_trimmed_paired_file:
     type: File?
     outputBinding:
       glob: |
@@ -118,7 +118,7 @@ outputs:
             return inputs.R2_fastq_file.nameroot + '.trimmed.fastq';
           return null;
         }
-  output_read2_trimmed_unpaired_file:
+  R2_trimmed_unpaired_file:
     type: File?
     outputBinding:
       glob: |
