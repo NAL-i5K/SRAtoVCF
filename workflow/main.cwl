@@ -44,18 +44,18 @@ inputs:
 
 steps:
     get_sra_file:
-        run: tools/prefetch.cwl
+        run: ../tools/prefetch.cwl
         in: 
             accession: SRA_accession
         out: [sra_file]
     download_sra_file:
-        run: tools/fastq-dump.cwl
+        run: ../tools/fastq-dump.cwl
         in: 
             SRA_file: 
                 source: get_sra_file/sra_file
         out: [forward, reverse]
     Trimmomatic:
-        run: tools/trimmomatic.cwl
+        run: ../tools/trimmomatic.cwl
         in:
             R1_fastq_file: 
                 source: download_sra_file/forward
@@ -64,19 +64,19 @@ steps:
             input_adapters_file: input_adapters_file
         out: [log_file,R1_trimmed_paired_file,R1_trimmed_unpaired_file,R2_trimmed_paired_file,R2_trimmed_unpaired_file]
     FastQC_F:
-        run: tools/fastqc.cwl
+        run: ../tools/fastqc.cwl
         in:
             input_file: 
                 source: Trimmomatic/R1_fastq_file
         out: [report_html, report_zip]
     FastQC_R:
-        run: tools/fastqc.cwl
+        run: ../tools/fastqc.cwl
         in:
             input_file: 
                 source: Trimmomatic/R2_fastq_file
         out: [report_html, report_zip]
     BWA_mem:
-        run: tools/bwa_mem.cwl
+        run: ../tools/bwa_mem.cwl
         in:
             reference: 
                 source: ref_genome
@@ -89,7 +89,7 @@ steps:
                 source: Trimmomatic/R2_trimmed_paired_file
         out: [output]
     Sort_sam:
-        run: tools/samtools_sort.cwl
+        run: ../tools/samtools_sort.cwl
         in:
             input: 
                 source: BWA_mem/output
@@ -98,7 +98,7 @@ steps:
                 valueFrom: ${ return self + ".bam"}
         out: [sorted]
     Picard_MarkDuplicates:
-        run: tools/picard_MarkDuplicates.cwl
+        run: ../tools/picard_MarkDuplicates.cwl
         in:
             input_files: 
                 source: Sort_sam/sorted
@@ -111,7 +111,7 @@ steps:
             removeDuplicates: removeDuplicates 
         out: [markDups_output]
     Picard_AddOrReplacereadGroup:
-        run: tools/picard_AddOrReplaceReadGroups.cwl
+        run: ../tools/picard_AddOrReplaceReadGroups.cwl
         in:
             input: 
                 source: Picard_MarkDuplicates/markDups_output
@@ -126,7 +126,7 @@ steps:
             CREATE_INDEX: CREATE_INDEX
         out: [out_bam]
     GATK_HaplotypeCaller:
-        run: tools/GATK_Haplotypecaller.cwl
+        run: ../tools/GATK_Haplotypecaller.cwl
         in:
             input_bamfile:  
                 source: Picard_AddOrReplacereadGroup/out_bam
@@ -141,7 +141,7 @@ steps:
             creat_variant_index: creat_variant_index
         out: [output_file,output_file_bam]
     GATK_VariantFiltration:
-        run: tools/GATK_VariantFiltration.cwl
+        run: ../tools/GATK_VariantFiltration.cwl
         in:
             vcf_file: 
                 source: GATK_HaplotypeCaller/output_file
