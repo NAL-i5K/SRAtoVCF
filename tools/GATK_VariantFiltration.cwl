@@ -1,46 +1,55 @@
-cwlVersion: v1.2
+cwlVersion: v1.0
 class: CommandLineTool
-
 
 requirements:
     InlineJavascriptRequirement: {}
+hints:
     DockerRequirement:
       dockerPull: broadinstitute/gatk:latest
  
 
 
-baseCommand: [ gatk, VariantFiltration ]
+baseCommand: [gatk, VariantFiltration]
 
 inputs:
-  vcf_file:
-    type: File
-    inputBinding:
-      prefix: --variant
-    secondaryFiles:
-      - .tbi
+  jave_option:
+        type: string?
+        inputBinding:
+          position: 2
+          prefix: '--java-options'
   reference:
     type: File
     inputBinding:
-      prefix: --reference
+      position: 3
+      prefix: '--reference'
     secondaryFiles:
       - .fai
       - ^.dict
-  output:
-    type: string
-    default: filter.vcf.gz
+  vcf_file:
+    type: File
     inputBinding:
-      prefix: --output
-  
+      position: 4
+      prefix: '--variant'
+    secondaryFiles:
+      - .tbi
   filter_expression:
     type: string
     default: "QD < 5.0 || FS > 50.0 || SOR > 3.0 || MQ < 50.0 || MQRankSum < -2.5 || ReadPosRankSum < -1.0 || ReadPosRankSum > 3.5"
     inputBinding:
-      prefix: --filter-expression
+      position: 5
+      prefix: '--filter-expression'
   filter_name: 
     type: string
     default: "my_filter" 
     inputBinding:
-      prefix: --filter-name 
+      position: 6
+      prefix: '--filter-name' 
+  output:
+    type: string
+    inputBinding:
+      position: 7
+      prefix: '--output'
+  
 
 outputs:
   vcf:

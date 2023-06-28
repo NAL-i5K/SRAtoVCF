@@ -1,14 +1,17 @@
 class: CommandLineTool
-cwlVersion: v1.2
+cwlVersion: v1.0
 
 requirements:
   ShellCommandRequirement: {}
   InlineJavascriptRequirement: {}
+  ResourceRequirement
+    coresMin: $(inputs.nthreads)
+hints:
   DockerRequirement:
     dockerPull: staphb/trimmomatic:latest
  
-baseCommand:
-  - trimmomatic
+baseCommand:[trimmomatic]
+
 inputs:
   end_mode:
     type: string
@@ -16,6 +19,7 @@ inputs:
     inputBinding:
       position: 2
   log_filename:
+    default: $(inputs.R1_fastq_file.nameroot)
     type: string?
     inputBinding:
       position: 3
@@ -33,11 +37,11 @@ inputs:
       position: 5
       prefix: '-phred'
       separate: false
-  input_read1_fastq_file:
+  R1_fastq_file:
     type: File
     inputBinding:
       position: 6
-  input_read2_fastq_file:
+  R2_fastq_file:
     type: File?
     inputBinding:
       position: 7
@@ -60,6 +64,7 @@ inputs:
       prefix: 'LEADING:'
       separate: false
   slidingwindow:
+    default: '4:15'
     type: string?
     inputBinding:
       position: 15
@@ -72,6 +77,7 @@ inputs:
       prefix: 'TRAILING:'
       separate: false
   illuminaclip:
+    default: '2:30:10'
     type: string
   input_adapters_file:
     type: File
@@ -85,24 +91,22 @@ inputs:
 
   
 outputs:
-  output_log_file:
-    doc: Trimmomatic Log file.
+  log_file:
     type: File?
     outputBinding:
       glob: $(inputs.log_filename)
-  output_read1_trimmed_paired_file:
+  R1_trimmed_paired_file:
     type: File
     outputBinding:
-      glob: >-
-        $(inputs.input_read1_fastq_file.path.replace(/^.*[\\\/]/,
-        '').replace(/\.[^/.]+$/, '') + '.trimmed.fastq')
-  output_read1_trimmed_unpaired_file:
+      glob: |
+        $(inputs.R1_fastq_file.nameroot + '.trimmed.fastq')
+  R1_trimmed_unpaired_file:
     type: File?
     outputBinding:
       glob: |
         ${
           if (inputs.end_mode == "PE")
-            return inputs.input_read1_fastq_file.path.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '') + '.unpaired.trimmed.fastq';
+            return inputs.R1_fastq_file.nameroot + '.U.trimmed.fastq';
           return null;
         }
   output_read2_trimmed_paired_file:
@@ -110,8 +114,8 @@ outputs:
     outputBinding:
       glob: |
         ${
-          if (inputs.end_mode == "PE" && inputs.input_read2_fastq_file)
-            return inputs.input_read2_fastq_file.path.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '') + '.trimmed.fastq';
+          if (inputs.end_mode == "PE" && inputs.R2_fastq_file)
+            return inputs.R2_fastq_file.nameroot + '.trimmed.fastq';
           return null;
         }
   output_read2_trimmed_unpaired_file:
@@ -119,35 +123,34 @@ outputs:
     outputBinding:
       glob: |
         ${
-          if (inputs.end_mode == "PE" && inputs.input_read2_fastq_file)
-            return inputs.input_read2_fastq_file.path.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '') + '.unpaired.trimmed.fastq';
+          if (inputs.end_mode == "PE" && inputs.R2_fastq_file)
+            return inputs.R2_fastq_file.nameroot + '.U.trimmed.fastq';
           return null;
         }
 
 arguments:
   - position: 8
     valueFrom: >-
-      $(inputs.input_read1_fastq_file.path.replace(/^.*[\\\/]/,
-      '').replace(/\.[^/.]+$/, '') + '.trimmed.fastq')
+      $(inputs.R1_fastq_file.nameroot + '.trimmed.fastq')
   - position: 9
     valueFrom: |
       ${
-        if (inputs.end_mode == "PE" && inputs.input_read2_fastq_file)
-          return inputs.input_read1_fastq_file.path.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '') + '.trimmed.unpaired.fastq';
+        if (inputs.end_mode == "PE" && inputs.R2_fastq_file)
+          return inputs.R1_fastq_file.nameroot + '.trimmed.U.fastq';
         return null;
       }
   - position: 10
     valueFrom: |
       ${
-        if (inputs.end_mode == "PE" && inputs.input_read2_fastq_file)
-          return inputs.input_read2_fastq_file.path.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '') + '.trimmed.fastq';
+        if (inputs.end_mode == "PE" && inputs.R2_fastq_file)
+          return inputs.R2_fastq_file.nameroot + '.trimmed.fastq';
         return null;
       }
   - position: 11
     valueFrom: |
       ${
-        if (inputs.end_mode == "PE" && inputs.input_read2_fastq_file)
-          return inputs.input_read2_fastq_file.path.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '') + '.trimmed.unpaired.fastq';
+        if (inputs.end_mode == "PE" && inputs.R2_fastq_file)
+          return inputs.R2_fastq_file.nameroot + '.trimmed.U.fastq';
         return null;
       }
   - position: 12

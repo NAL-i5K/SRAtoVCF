@@ -1,38 +1,40 @@
+cwlVersion: v1.0
 class: CommandLineTool
-cwlVersion: v1.2
 
 requirements:
   ShellCommandRequirement: {}
   InlineJavascriptRequirement: {}
+hints:
   DockerRequirement:
       dockerPull: broadinstitute/gatk:latest
  
-baseCommand:
-  - gatk
+baseCommand: [gatk, MarkDuplicates]
 inputs:
     input_files:
-        type: [string, File]
+        type: File
         inputBinding:
             position: 3
-            prefix: INPUT=
-        
+            prefix: '-I'
+    ValidationStringency:
+        type: string?
+        inputBinding:
+            position: 4
+            prefix: '--VALIDATION_STRINGENCY'    
     metricsFile:
         type: string?
         inputBinding:
             position: 5
-            prefix: METRICS_FILE=
-        
+            prefix: '-M'  
     output_filename:
         type: string
         inputBinding:
             position: 6
-            prefix: OUTPUT=
-        
+            prefix: '-O'    
     removeDuplicates:
         type: string?
         inputBinding:
             position: 7
-            prefix: REMOVE_DUPLICATES=
+            prefix: '--REMOVE_DUPLICATES'
        
 outputs:
     markDups_output:
@@ -40,10 +42,5 @@ outputs:
         outputBinding:
             glob: $(inputs.output_filename)
 
-arguments:
-  - position: 4
-    valueFrom: VALIDATION_STRINGENCY=SILENT
-  - position: 2
-    prefix: ''
-    shellQuote: false
-    valueFrom: MarkDuplicates
+
+

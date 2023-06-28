@@ -1,8 +1,11 @@
-cwlVersion: v1.2
+cwlVersion: v1.0
 class: CommandLineTool
 
 requirements:
   InlineJavascriptRequirement: {}
+  ResourceRequirement
+    coresMin: $(inputs.threads)
+hints:
   DockerRequirement:
     dockerPull: staphb/fastqc:latest
 

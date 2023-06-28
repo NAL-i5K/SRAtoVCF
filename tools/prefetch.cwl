@@ -1,11 +1,13 @@
-cwlVersion: v1.2
+cwlVersion: v1.0
 class: CommandLineTool
+
 requirements:
   InlineJavascriptRequirement: {}
-
 hints:
   DockerRequirement:
-    dockerPull: ncbi/sra-tools
+    dockerPull: ncbi/sra-tools:latest
+
+baseCommand: [prefetch]
 
 inputs:
   accession:
@@ -32,4 +34,3 @@ outputs:
       glob: $(inputs.accession)/$(inputs.accession).sra
 
 
-baseCommand: [prefetch]

@@ -1,7 +1,9 @@
-cwlVersion: v1.2
+cwlVersion: v1.0
 class: CommandLineTool
+
 requirements:
   InlineJavascriptRequirement: {}
+hints:
   DockerRequirement:
     dockerPull: ncbi/sra-tools:latest
 
@@ -29,6 +31,12 @@ inputs:
     inputBinding:
       position: 4
       prefix: '--split-files'
+  origfmt:
+    default: false
+    inputBinding:
+      position: 5
+      prefix: '--origfmt'
+
   
  
 outputs:

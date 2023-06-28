@@ -1,4 +1,4 @@
-cwlVersion: v1.2
+cwlVersion: v1.0
 class: CommandLineTool
 doc: |-
   Downlaod the bioproject metadat related to the species name that input.

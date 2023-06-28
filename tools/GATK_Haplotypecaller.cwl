@@ -1,29 +1,20 @@
+cwlVersion: v1.0
 class: CommandLineTool
-cwlVersion: v1.2
 
 requirements:
   ShellCommandRequirement: {}
   InlineJavascriptRequirement: {}
+hints:
   DockerRequirement:
     dockerPull: broadinstitute/gatk:latest
 
-baseCommand:
-  - gatk
+baseCommand: [gatk, HaplotypeCaller]
 inputs:
-    input_bamfile:
-        type: File
+    jave_option:
+        type: string?
         inputBinding:
-            position: 4
-            prefix: '-I'
-        doc: bam file produced after printReads
-        secondaryFiles:
-            - ^.bai
-    output_filename:
-        type: string
-        inputBinding:
-            position: 5
-            prefix: '-O'
-        doc: name of the output file from HaplotypeCaller
+          position: 2
+          prefix: '--java-options'
     reference:
         type: File
         inputBinding:
@@ -32,15 +23,28 @@ inputs:
         secondaryFiles:
             - .fai
             - ^.dict
+    input_bamfile:
+        type: File
+        inputBinding:
+            position: 4
+            prefix: '-I'
+        secondaryFiles:
+            - ^.bai
+    output_filename:
+        type: string
+        inputBinding:
+            position: 5
+            prefix: '-O'
     ERC:
       type: string?
       inputBinding:
         prefix: -ERC
         position: 6
     creat_variant_index:
+      default: true
       type: boolean?
       inputBinding:
-        prefix: --create-output-variant-index 
+        prefix: '--create-output-variant-index'
         position: 7
     bam_output:
       type: string
@@ -48,9 +52,6 @@ inputs:
             position: 8
             prefix: '-bam-output'
     
-       
-
- 
 outputs:
   output_file:
     type: File
@@ -63,8 +64,5 @@ outputs:
     outputBinding:
       glob: $(inputs.bam_output)
 
-arguments:
-  - position: 2
-    valueFrom: HaplotypeCaller
 
    

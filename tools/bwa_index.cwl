@@ -1,12 +1,12 @@
-cwlVersion: v1.2
+cwlVersion: v1.0
 class: CommandLineTool
-
 
 requirements:
   ShellCommandRequirement: {}
   InlineJavascriptRequirement: {}
   InitialWorkDirRequirement:
     listing: [ $(inputs.ref_genome) ]
+hints:
   DockerRequirement:
     dockerPull: staphb/bwa:latest
  
@@ -14,9 +14,7 @@ inputs:
   ref_genome:
     type: File
 
-baseCommand:
-- bwa
-- index
+baseCommand: [bwa, index]
 
 arguments:
   - valueFrom: $(inputs.ref_genome.path)

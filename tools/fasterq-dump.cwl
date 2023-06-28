@@ -1,7 +1,9 @@
-cwlVersion: v1.2
+cwlVersion: v1.0
 class: CommandLineTool
+
 requirements:
   InlineJavascriptRequirement: {}
+hints:
   DockerRequirement:
     dockerPull: ncbi/sra-tools:latest
 

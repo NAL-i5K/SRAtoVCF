@@ -1,9 +1,10 @@
-cwlVersion: v1.2
+cwlVersion: v1.0
 class: CommandLineTool
 
 requirements:
   ShellCommandRequirement: {}
   InlineJavascriptRequirement: {}
+hints:
   DockerRequirement:
       dockerPull: broadinstitute/gatk:latest
 
@@ -13,14 +14,13 @@ inputs:
         inputBinding:
             position: 3
             separate: false
-            prefix: INPUT=
-        doc: INPUT String A BAM file or URL to process. Must be sorted in coordinate order.
+            prefix: '-I'
     output_filename:
         type: string
         inputBinding:
             position: 4
             separate: false
-            prefix: OUTPUT=
+            prefix: '-O'
 
 outputs:
   index:
@@ -28,7 +28,4 @@ outputs:
     outputBinding:
       glob: $(inputs.output_filename)
 
-baseCommand: gatk
-arguments:
-- valueFrom: BuildBamIndex
-  position: 2
+baseCommand: [gatk, BuildBamIndex]

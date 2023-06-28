@@ -1,22 +1,20 @@
-cwlVersion: v1.2
+cwlVersion: v1.0
 class: CommandLineTool
-
 
 requirements:
   ShellCommandRequirement: {}
   InlineJavascriptRequirement: {}
   InitialWorkDirRequirement:
     listing: [ $(inputs.ref_genome) ]
+hints:
   DockerRequirement:
     dockerPull: staphb/samtools:latest
  
+baseCommand: [samtools, faidx]
+
 inputs:
   ref_genome:
     type: File
-
-baseCommand:
-- samtools
-- faidx
 
 arguments:
   - valueFrom: $(inputs.ref_genome.path)

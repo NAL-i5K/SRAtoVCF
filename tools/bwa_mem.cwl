@@ -3,6 +3,9 @@ class: CommandLineTool
 
 requirements:
   InlineJavascriptRequirement: {}
+  ResourceRequirement
+    coresMin: $(inputs.threads)
+hints:
   DockerRequirement:
     dockerPull: staphb/bwa:latest
 
@@ -29,11 +32,11 @@ inputs:
     inputBinding:
       position: 3
   threads:
+    default: 1
     type: int?
     inputBinding:
       position: 4
       prefix: -t
-    doc: number of threads
 
 
  
@@ -45,6 +48,5 @@ outputs:
     outputBinding:
       glob: $(inputs.output_filename)
 
-baseCommand:
-- bwa
-- mem
+baseCommand: [bwa, mem]
+
