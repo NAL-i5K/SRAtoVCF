@@ -30,7 +30,7 @@ inputs:
       position: 4
       prefix: '-threads'
   phred:
-    default: '64'
+    default: '33'
     type: string
     inputBinding:
       position: 5
