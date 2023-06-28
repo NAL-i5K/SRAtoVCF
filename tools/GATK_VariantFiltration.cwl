@@ -3,20 +3,15 @@ class: CommandLineTool
 
 requirements:
     InlineJavascriptRequirement: {}
+    ResourceRequirement:
+      ramMin: 1024
 hints:
     DockerRequirement:
       dockerPull: broadinstitute/gatk:latest
  
-
-
-baseCommand: [gatk]
+baseCommand: [gatk, VariantFiltration]
 
 inputs:
-  java_option:
-        type: string?
-        inputBinding:
-          position: 2
-          prefix: '--java-options'
   reference:
     type: File
     inputBinding:
@@ -59,6 +54,3 @@ outputs:
     secondaryFiles:
       - .tbi
 
-arguments:
-  - position: 3
-    valueFrom: VariantFiltration

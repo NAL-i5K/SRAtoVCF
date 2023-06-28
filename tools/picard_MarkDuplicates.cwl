@@ -4,18 +4,16 @@ class: CommandLineTool
 requirements:
   ShellCommandRequirement: {}
   InlineJavascriptRequirement: {}
+  ResourceRequirement:
+    ramMin: 1024
+
 hints:
   DockerRequirement:
       dockerPull: broadinstitute/gatk:latest
  
-baseCommand: [gatk]
+baseCommand: [gatk, MarkDuplicates]
 
 inputs:
-    java_option:
-        type: string?
-        inputBinding:
-          position: 2
-          prefix: '--java-options'
     input_files:
         type: File
         inputBinding:
@@ -48,7 +46,5 @@ outputs:
         outputBinding:
             glob: $(inputs.output_filename)
 
-arguments:
-  - position: 3
-    valueFrom: MarkDuplicates
+
 

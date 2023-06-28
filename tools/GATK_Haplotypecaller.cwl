@@ -4,18 +4,18 @@ class: CommandLineTool
 requirements:
   ShellCommandRequirement: {}
   InlineJavascriptRequirement: {}
+  ResourceRequirement:
+    coresMin: $(inputs.threads)
+    ramMin: 8000
+    ramMax: 16000
+
 hints:
   DockerRequirement:
     dockerPull: broadinstitute/gatk:latest
 
-baseCommand: [gatk]
+baseCommand: [gatk, HaplotypeCaller]
 
 inputs:
-    java_option:
-        type: string?
-        inputBinding:
-          position: 2
-          prefix: '--java-options'
     reference:
         type: File
         inputBinding:
@@ -36,21 +36,27 @@ inputs:
         inputBinding:
             position: 5
             prefix: '-O'
+    threads:
+      default: 1
+      type: int
+      inputBinding:
+        position: 6
+        prefix: '--native-pair-hmm-threads'
     ERC:
       type: string?
       inputBinding:
-        prefix: -ERC
-        position: 6
+        prefix: '-ERC'
+        position: 7
     creat_variant_index:
       default: true
       type: boolean?
       inputBinding:
         prefix: '--create-output-variant-index'
-        position: 7
+        position: 8
     bam_output:
       type: string
       inputBinding:
-            position: 8
+            position: 9
             prefix: '-bam-output'
     
 outputs:
@@ -65,7 +71,5 @@ outputs:
     outputBinding:
       glob: $(inputs.bam_output)
 
-arguments:
-  - position: 3
-    valueFrom: HaplotypeCaller
+
    
