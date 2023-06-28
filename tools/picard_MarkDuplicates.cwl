@@ -8,9 +8,10 @@ hints:
   DockerRequirement:
       dockerPull: broadinstitute/gatk:latest
  
-baseCommand: [gatk, MarkDuplicates]
+baseCommand: [gatk]
+
 inputs:
-    jave_option:
+    java_option:
         type: string?
         inputBinding:
           position: 2
@@ -47,5 +48,7 @@ outputs:
         outputBinding:
             glob: $(inputs.output_filename)
 
-
+arguments:
+  - position: 3
+    valueFrom: MarkDuplicates
 

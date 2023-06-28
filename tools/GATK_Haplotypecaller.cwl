@@ -8,9 +8,10 @@ hints:
   DockerRequirement:
     dockerPull: broadinstitute/gatk:latest
 
-baseCommand: [gatk, HaplotypeCaller]
+baseCommand: [gatk]
+
 inputs:
-    jave_option:
+    java_option:
         type: string?
         inputBinding:
           position: 2
@@ -64,5 +65,7 @@ outputs:
     outputBinding:
       glob: $(inputs.bam_output)
 
-
+arguments:
+  - position: 3
+    valueFrom: HaplotypeCaller
    

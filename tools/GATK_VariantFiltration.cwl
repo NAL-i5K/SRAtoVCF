@@ -9,10 +9,10 @@ hints:
  
 
 
-baseCommand: [gatk, VariantFiltration]
+baseCommand: [gatk]
 
 inputs:
-  jave_option:
+  java_option:
         type: string?
         inputBinding:
           position: 2
@@ -58,3 +58,7 @@ outputs:
       glob: $(inputs.output)
     secondaryFiles:
       - .tbi
+
+arguments:
+  - position: 3
+    valueFrom: VariantFiltration
