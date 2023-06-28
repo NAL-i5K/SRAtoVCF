@@ -93,19 +93,19 @@ outputs:
   log_file:
     type: File?
     outputBinding:
-      glob: $(inputs.log_filename)
+      glob: $(inputs.log_filename).log
   R1_trimmed_paired_file:
     type: File
     outputBinding:
       glob: |
-        $(inputs.log_filename + '.trimmed.fastq')
+        $(inputs.log_filename + '_1.trimmed.fastq')
   R1_trimmed_unpaired_file:
     type: File?
     outputBinding:
       glob: |
         ${
           if (inputs.end_mode == "PE")
-            return inputs.log_filename + '.U.trimmed.fastq';
+            return inputs.log_filename + '_1.U.trimmed.fastq';
           return null;
         }
   R2_trimmed_paired_file:
@@ -114,7 +114,7 @@ outputs:
       glob: |
         ${
           if (inputs.end_mode == "PE" && inputs.R2_fastq_file)
-            return inputs.log_filename + '.trimmed.fastq';
+            return inputs.log_filename + '_2.trimmed.fastq';
           return null;
         }
   R2_trimmed_unpaired_file:
@@ -123,33 +123,33 @@ outputs:
       glob: |
         ${
           if (inputs.end_mode == "PE" && inputs.R2_fastq_file)
-            return inputs.log_filename + '.U.trimmed.fastq';
+            return inputs.log_filename + '_2.U.trimmed.fastq';
           return null;
         }
 
 arguments:
   - position: 8
     valueFrom: >-
-      $(inputs.log_filename + '.trimmed.fastq')
+      $(inputs.log_filename + '_1.trimmed.fastq')
   - position: 9
     valueFrom: |
       ${
         if (inputs.end_mode == "PE" && inputs.R2_fastq_file)
-          return inputs.log_filename + '.trimmed.U.fastq';
+          return inputs.log_filename + '_1.trimmed.U.fastq';
         return null;
       }
   - position: 10
     valueFrom: |
       ${
         if (inputs.end_mode == "PE" && inputs.R2_fastq_file)
-          return inputs.log_filename + '.trimmed.fastq';
+          return inputs.log_filename + '_2.trimmed.fastq';
         return null;
       }
   - position: 11
     valueFrom: |
       ${
         if (inputs.end_mode == "PE" && inputs.R2_fastq_file)
-          return inputs.log_filename + '.trimmed.U.fastq';
+          return inputs.log_filename + '_2.trimmed.U.fastq';
         return null;
       }
   - position: 12
