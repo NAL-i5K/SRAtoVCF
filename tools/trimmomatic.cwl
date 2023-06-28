@@ -4,7 +4,7 @@ cwlVersion: v1.0
 requirements:
   ShellCommandRequirement: {}
   InlineJavascriptRequirement: {}
-  ResourceRequirement
+  ResourceRequirement:
     coresMin: $(inputs.nthreads)
 hints:
   DockerRequirement:

@@ -3,7 +3,7 @@ class: CommandLineTool
 
 requirements:
   InlineJavascriptRequirement: {}
-  ResourceRequirement
+  ResourceRequirement:
     coresMin: $(inputs.threads)
 hints:
   DockerRequirement:
