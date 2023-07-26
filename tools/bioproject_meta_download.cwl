@@ -4,6 +4,8 @@ doc: |-
   Downlaod the bioproject metadat related to the species name that input.
 requirements:
   ShellCommandRequirement: {}
+  DockerRequirement:
+    dockerPull: ncbi/edirect
   InitialWorkDirRequirement:
     listing:
     - entryname: download_bioproject_metadata.sh
