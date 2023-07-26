@@ -6,43 +6,23 @@ requirements:
   ShellCommandRequirement: {}
   InitialWorkDirRequirement:
     listing:
-    - entryname: download_bioproject_metadata.py
+    - entryname: download_bioproject_metadata.sh
       entry: |-
-        from sys import argv
-        import os
-        import subprocess
-        species_name = argv[1]
-        output_file_name = argv[2]
-
-        query = f"{species_name}[Organism]"
-        bp_ids_cmd = f"esearch -db bioproject -query '{query}' | efetch -format docsum | xtract -pattern DocumentSummary -element Project_Acc"
-        bp_ids_proc = subprocess.Popen(bp_ids_cmd, stdout=subprocess.PIPE, shell=True)
-        bp_ids = bp_ids_proc.communicate()[0].decode("utf-8").strip().split() 
-
-        with open(output_file_name, "w") as output_file:
-            output_file.write("BioProject ID\tRelated PubMed IDs\tRelated PubMed Titles\tRelated SRA Files\tNumber of Files\tTotal Size (GB)\n")
-            for bp_id in bp_ids:
-                # Find related SRA files
-                sra_data_cmd = f"esearch -db sra -query '{bp_id}' | efetch -format runinfo | grep -E 'WGS.*GENOMIC.*PAIRED.*ILLUMINA.*{species_name}'"
-                sra_data_proc = subprocess.Popen(sra_data_cmd, stdout=subprocess.PIPE, shell=True)
-                sra_data = sra_data_proc.communicate()[0].decode("utf-8").strip()
-                if len(sra_data) !=0:
-                    sra_accession = "/".join([x.split(",")[0] for x in sra_data.split("\n") if x.strip()])
-                    sra_files_size =  [x.strip().split(",")[4] for x in sra_data.split("\n") if x.strip()]
-                    num_files = len(sra_accession.split('/'))
-                    total_size_gb = round(sum(map(int,sra_files_size))/ (1000*1000*1000),2)
-                    # Find related PubMed IDs
-                    pubmed_dat_cmd = f"esearch -db bioproject -query '{bp_id}' | elink -target pubmed | efetch -format docsum | xtract -pattern DocumentSummary -element Id,Title"
-                    pubmed_dat_proc = subprocess.Popen(pubmed_dat_cmd, stdout=subprocess.PIPE, shell=True)
-                    pubmed_dat = pubmed_dat_proc.communicate()[0].decode("utf-8").strip()
-                    if len(pubmed_dat) !=0:
-                        pubmed_ids = "/".join([x.split("\t")[0] for x in pubmed_dat.split("\n") if x.strip()])
-                        pubmed_titles = "/".join([x.split("\t")[1] for x in pubmed_dat.split("\n") if x.strip()])
-                    else:
-                        pubmed_ids = ""
-                        pubmed_titles = ""
-                    # Output results to file
-                    output_file.write(f"{bp_id}\t{pubmed_ids}\t{pubmed_titles}\t{sra_accession}\t{num_files}\t{total_size_gb}\n")          
+        bp_ids=$(esearch -db bioproject -query "$(inputs.species_name)[Organism]" | efetch -format docsum | xtract -pattern DocumentSummary -element  Project_Acc)
+        for bp_id in $bp_ids; do
+          sra_data=$(esearch -db sra -query "$bp_id" | efetch -format runinfo | grep -E "WGS.*GENOMIC.*PAIRED.*ILLUMINA.*$(inputs.species_name)")
+          sra_accession=$(echo "$sra_data" | cut -d ',' -f 1 | paste -sd "/" -)
+          sra_files=$(echo "$sra_data" | cut -d ',' -f 1,5 | tr ',' '/')
+          num_files=$(echo "$sra_files" | grep -v '^$' | wc -l)
+          total_size=$(echo "$sra_files" | awk -F'/' '{ sum += $2 } END { print sum }')
+          total_size_gb=$(echo "scale=2; $total_size / (1000*1000*1000)" | bc)
+          if [ $num_files -ne 0 ]; then
+            pubmed_dat=$(esearch -db bioproject -query "$bp_id"| elink -target pubmed| efetch -format docsum |xtract -pattern DocumentSummary -element Id,Title)
+            pubmed_ids=$(echo "$pubmed_dat" | cut -f 1 | paste -sd "/" -)
+            pubmed_titles=$(echo "$pubmed_dat" | cut -f 2 | paste -sd "/" -)
+            echo "$bp_id\t$pubmed_ids\t$pubmed_titles\t$sra_accession\t$num_files\t$total_size_gb" >> "$(inputs.output_file)"
+          fi
+        done       
 inputs:
   species_name:
     type: string
