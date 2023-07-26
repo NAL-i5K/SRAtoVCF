@@ -35,7 +35,7 @@ inputs:
 arguments:
     - shellQuote: false
       valueFrom: |-
-        python download_bioproject_metadata.py "$(inputs.species_name)" "$(inputs.output_file)"
+        bash download_bioproject_metadata.sh "$(inputs.species_name)" "$(inputs.output_file)"
 outputs:
   output_file:
     type: File
