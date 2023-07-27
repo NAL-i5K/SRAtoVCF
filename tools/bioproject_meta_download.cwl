@@ -25,7 +25,7 @@ arguments:
 
         pubmed_dat=\$(esearch -db bioproject -query "$bp_id"| elink -target pubmed| efetch -format docsum |xtract -pattern DocumentSummary -element Id,Title)
 
-        if [ $pubmed_dat -ne 0 ]; then
+        if [[ -n "$pubmed_dat" ]]; then
           pubmed_ids=\$(echo "$pubmed_dat" | cut -f 1 | paste -sd "/" -)
           pubmed_titles=\$(echo "$pubmed_dat" | cut -f 2 | paste -sd "/" -)
         else
