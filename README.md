@@ -14,7 +14,7 @@ A pipeline for converting short-read DNA data from SRA into VCF files
 ### Using Docker container 
 * Docker
 ### Using Singularity container 
-* Singularity or SingularityCE
+* Singularity or SingularityCE or Apptainer
 ### On HPC
 * conda
 
