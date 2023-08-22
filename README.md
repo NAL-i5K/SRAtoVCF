@@ -1,6 +1,23 @@
 # SRAtoVCF
 A pipeline for converting short-read DNA data from SRA into VCF files
 
+## Prerequisite
+* Pyhthon 3.6+
+* edirect 12.5
+* sra-tools 3.0.1
+* Trimmomatic 0.39
+* FastQC 0.12.1
+* bwa-mem2 2.2.1
+* samtools 1.17
+* gatk 4.4.0.0
+* cwltool 1.0+
+### Using Docker container 
+* Docker
+### Using Singularity container 
+* Singularity or SingularityCE
+### On HPC
+* conda
+
 ## Running on HPC
 ### Step 1. Set up conda environment
 First, we need to install the runner for the pipeline called cwltool to compile the pipeline. Therefore we have to set up a conda environment.
