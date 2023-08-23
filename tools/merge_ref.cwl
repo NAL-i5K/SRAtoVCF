@@ -42,7 +42,7 @@ outputs:
       - .ann
       - .bwt.2bit.64
       - .pac
-      - .0123
+      - '.0123'
       - .fai
       - ^.dict
     outputBinding:
