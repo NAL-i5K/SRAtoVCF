@@ -13,3 +13,10 @@ ReadGroupSampleName: "1"
 CREATE_INDEX: "TRUE"
 creat_variant_index: TRUE
 filter_expression: "QD < 5.0 || FS > 50.0 || SOR > 3.0 || MQ < 50.0 || MQRankSum < -2.5 || ReadPosRankSum < -1.0 || ReadPosRankSum > 3.5"
+select_type_SNP: TRUE
+select_type_INDEL: TRUE
+select_type_MIXED: TRUE
+filter_expression_SNP: "QD < 2.0 || FS > 60.0 || SOR > 3.0 || MQ < 40.0 || MQRankSum < -12.5 || ReadPosRankSum < -8.0 || QUAL < 30.0"
+filter_expression_INDEL: "QD < 2.0 || FS > 200.0 || ReadPosRankSum < -20.0 || QUAL < 30.0 "
+exclude_filtered: "TRUE"
+creat_index: "TRUE"
