@@ -5,7 +5,7 @@ requirements:
   InlineJavascriptRequirement: {}
 hints:
   DockerRequirement:
-    dockerPull: ncbi/sra-tools:latest
+    dockerPull: ncbi/sra-tools:3.0.1
 
 
 inputs:

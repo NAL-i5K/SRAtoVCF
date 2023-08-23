@@ -7,7 +7,7 @@ requirements:
     coresMin: $(inputs.threads)
 hints:
   DockerRequirement:
-    dockerPull: staphb/bwa:latest
+    dockerPull: "docker://quay.io/biocontainers/bwa-mem2:2.2.1--hd03093a_5"
 
 inputs:
   reference:
@@ -15,9 +15,9 @@ inputs:
     secondaryFiles:
       - .amb
       - .ann
-      - .bwt
+      - .bwt.2bit.64
       - .pac
-      - .sa
+      - .0123
     inputBinding:
       position: 1
 
@@ -48,5 +48,5 @@ outputs:
     outputBinding:
       glob: $(inputs.output_filename)
 
-baseCommand: [bwa, mem]
+baseCommand: [bwa-mem2, mem]
 

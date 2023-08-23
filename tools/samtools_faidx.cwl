@@ -8,7 +8,7 @@ requirements:
     listing: [ $(inputs.ref_genome) ]
 hints:
   DockerRequirement:
-    dockerPull: staphb/samtools:latest
+    dockerPull: staphb/samtools:1.17-2023-06
  
 baseCommand: [samtools, faidx]
 

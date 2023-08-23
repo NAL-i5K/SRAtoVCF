@@ -25,7 +25,7 @@ inputs:
     type: File
   ref_bwa_pac:
     type: File
-  ref_bwa_sa:
+  ref_bwa_0123:
     type: File
   ref_sam:
     type: File
@@ -40,9 +40,9 @@ outputs:
     secondaryFiles:
       - .amb
       - .ann
-      - .bwt
+      - .bwt.2bit.64
       - .pac
-      - .sa
+      - .0123
       - .fai
       - ^.dict
     outputBinding:

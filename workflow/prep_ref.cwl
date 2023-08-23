@@ -18,7 +18,7 @@ steps:
         run: ../tools/bwa_index.cwl
         in: 
           ref_genome: ref_genome
-        out: [index_bwa_amb, index_bwa_ann,index_bwa_bwt, index_bwa_pac, index_bwa_sa ]
+        out: [index_bwa_amb, index_bwa_ann,index_bwa_bwt, index_bwa_pac, index_bwa_0123 ]
     samtools:
         run: ../tools/samtools_faidx.cwl
         in: 
@@ -41,8 +41,8 @@ steps:
             source: bwa/index_bwa_bwt
           ref_bwa_pac: 
             source: bwa/index_bwa_pac
-          ref_bwa_sa: 
-            source: bwa/index_bwa_sa
+          ref_bwa_0123: 
+            source: bwa/index_bwa_0123
           ref_sam: 
             source: samtools/index_sam
           ref_picard: 

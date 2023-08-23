@@ -13,9 +13,9 @@ inputs:
         secondaryFiles:
             - .amb
             - .ann
-            - .bwt
+            - .bwt.2bit.64
             - .pac
-            - .sa
+            - .0123
             - .fai
             - ^.dict  
     SRA_accession:
@@ -30,15 +30,25 @@ inputs:
         type: string
     ReadGroupPlatform:
         type: string
-    ReadGroupPlatformUnit:
-        type: string
     ReadGroupSampleName: 
         type: string
     CREATE_INDEX:
         type: string
     creat_variant_index:
         type: boolean
-    filter_expression:
+    select_type_SNP:
+        type: boolean
+    select_type_INDEL:
+        type: boolean
+    select_type_MIXED:
+        type: boolean
+    filter_expression_SNP:
+        type: string
+    filter_expression_INDEL:
+        type: string
+    exclude_filtered:
+        type: string
+    creat_index: 
         type: string
 
 
@@ -122,7 +132,6 @@ steps:
             ReadGroupID: ReadGroupID
             ReadGroupLibrary: ReadGroupLibrary
             ReadGroupPlatform: ReadGroupPlatform
-            ReadGroupPlatformUnit: ReadGroupPlatformUnit
             ReadGroupSampleName: ReadGroupSampleName
             CREATE_INDEX: CREATE_INDEX
         out: [out_bam]
@@ -141,22 +150,87 @@ steps:
                 valueFrom: ${ return self + "_haplotype.bam"}
             creat_variant_index: creat_variant_index
         out: [output_file,output_file_bam]
-    GATK_VariantFiltration:
-        run: ../tools/GATK_VariantFiltration.cwl
+    GATK_SelectVariants_SNP:
+        run: ../tools/GATK_SelectVariants.cwl
         in:
             vcf_file: 
                 source: GATK_HaplotypeCaller/output_file
             reference: 
                 source: ref_genome
+            select_type_SNP: select_type_SNP
             output:
                 source: SRA_accession
-                valueFrom: ${ return self + "_filter.vcf.gz"}
-            filter_expression: filter_expression
+                valueFrom: ${ return self + "_SNP.vcf.gz"}
         out: [vcf]
+    GATK_SelectVariants_INDEL:
+        run: ../tools/GATK_SelectVariants.cwl
+        in:
+            vcf_file: 
+                source: GATK_HaplotypeCaller/output_file
+            reference: 
+                source: ref_genome
+            select_type_INDEL: select_type_INDEL
+            select_type_MIXED: select_type_MIXED
+            output:
+                source: SRA_accession
+                valueFrom: ${ return self + "_INDEL.vcf.gz"}
+        out: [vcf]
+    GATK_VariantFiltration_SNP:
+        run: ../tools/GATK_VariantFiltration.cwl
+        in:
+            vcf_file: 
+                source: GATK_SelectVariants_SNP/vcf
+            reference: 
+                source: ref_genome
+            output:
+                source: SRA_accession
+                valueFrom: ${ return self + "_SNP_filter.vcf.gz"}
+            filter_expression: filter_expression_SNP
+        out: [vcf]
+    GATK_VariantFiltration_INDEL:
+        run: ../tools/GATK_VariantFiltration.cwl
+        in:
+            vcf_file: 
+                source: GATK_SelectVariants_INDEL/vcf
+            reference: 
+                source: ref_genome
+            output:
+                source: SRA_accession
+                valueFrom: ${ return self + "_INDEL_filter.vcf.gz"}
+            filter_expression: filter_expression_INDEL
+        out: [vcf]
+    GATK_SortVcf:
+        run: ../tools/GATK_SortVcf.cwl
+        in:
+            vcf_file_SNP: 
+                source: GATK_VariantFiltration_SNP/vcf
+            vcf_file_INDEL: 
+                source: GATK_VariantFiltration_INDEL/vcf
+            output:
+                source: SRA_accession
+                valueFrom: ${ return self + "_sort.vcf.gz"}
+        out: [vcf]
+    GATK_SelectVariants:
+        run: ../tools/GATK_SelectVariants.cwl
+        in:
+            vcf_file: 
+                source:  GATK_SortVcf/vcf
+            reference: 
+                source: ref_genome
+            exclude_filtered: exclude_filtered
+            creat_index: creat_index
+            output:
+                source: SRA_accession
+                valueFrom: ${ return self + "_filtered.vcf.gz"}
+        out: [vcf, vcf_tbi]
+
 outputs:
     vcf:
         type: File
-        outputSource: GATK_VariantFiltration/vcf
+        outputSource: GATK_SelectVariants/vcf
+    vcf_tbi:
+        type: File
+        outputSource: GATK_SelectVariants/vcf_tbi
     fastqc1_html:
         type: File
         outputSource: FastQC_F/report_html
@@ -169,13 +243,7 @@ outputs:
     fastqc2_zip:
         type: File
         outputSource: FastQC_R/report_zip
-    SRA_F:
-        type: File
-        outputSource: download_sra_file/forward
-    SRA_R:
-        type: File
-        outputSource: download_sra_file/reverse
- 
+    
 
 
 

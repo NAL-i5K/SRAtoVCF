@@ -9,7 +9,6 @@ removeDuplicates: 'TRUE'
 ReadGroupID: "1"
 ReadGroupLibrary: lib1
 ReadGroupPlatform: ILLUMINA
-ReadGroupPlatformUnit: unit1
 ReadGroupSampleName: "1"
 CREATE_INDEX: "TRUE"
 creat_variant_index: TRUE

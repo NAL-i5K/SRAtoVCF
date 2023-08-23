@@ -7,7 +7,7 @@ requirements:
     coresMin: $(inputs.threads)
 hints:
   DockerRequirement:
-    dockerPull: staphb/fastqc:latest
+    dockerPull: staphb/fastqc:0.12.1
 
 baseCommand: [fastqc]
 inputs:

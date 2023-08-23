@@ -6,7 +6,7 @@ requirements:
   InlineJavascriptRequirement: {}
 hints:
   DockerRequirement:
-      dockerPull: broadinstitute/gatk:latest
+      dockerPull: broadinstitute/gatk:4.4.0.0
 
 baseCommand: [gatk, AddOrReplaceReadGroups]
 
@@ -55,7 +55,7 @@ inputs:
       prefix: '--RGPL'
 
   ReadGroupPlatformUnit:
-    type: string
+    type: string?
     inputBinding:
       position: 10
       prefix: '--RGPU'

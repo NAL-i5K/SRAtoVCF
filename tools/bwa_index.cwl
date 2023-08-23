@@ -8,13 +8,13 @@ requirements:
     listing: [ $(inputs.ref_genome) ]
 hints:
   DockerRequirement:
-    dockerPull: staphb/bwa:latest
+    dockerPull: "docker://quay.io/biocontainers/bwa-mem2:2.2.1--hd03093a_5"
  
 inputs:
   ref_genome:
     type: File
 
-baseCommand: [bwa, index]
+baseCommand: [bwa-mem2, index]
 
 arguments:
   - valueFrom: $(inputs.ref_genome.path)
@@ -32,12 +32,12 @@ outputs:
   index_bwa_bwt:
     type: File
     outputBinding:
-      glob: $(inputs.ref_genome.basename).bwt
+      glob: $(inputs.ref_genome.basename).bwt.2bit.64
   index_bwa_pac:
     type: File
     outputBinding:
       glob: $(inputs.ref_genome.basename).pac
-  index_bwa_sa:
+  index_bwa_0123:
     type: File
     outputBinding:
-      glob: $(inputs.ref_genome.basename).sa
+      glob: $(inputs.ref_genome.basename).0123

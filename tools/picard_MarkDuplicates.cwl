@@ -9,7 +9,7 @@ requirements:
 
 hints:
   DockerRequirement:
-      dockerPull: broadinstitute/gatk:latest
+      dockerPull: broadinstitute/gatk:4.4.0.0
  
 baseCommand: [gatk, --java-options, -Xmx4G, MarkDuplicates]
 

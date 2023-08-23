@@ -11,7 +11,7 @@ requirements:
 
 hints:
   DockerRequirement:
-    dockerPull: broadinstitute/gatk:latest
+    dockerPull: broadinstitute/gatk:4.4.0.0
 
 baseCommand: [gatk, HaplotypeCaller]
 
@@ -48,7 +48,7 @@ inputs:
         prefix: '-ERC'
         position: 7
     creat_variant_index:
-      default: true
+      default: "FALSE"
       type: boolean?
       inputBinding:
         prefix: '--create-output-variant-index'

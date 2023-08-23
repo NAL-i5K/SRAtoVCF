@@ -6,7 +6,7 @@ requirements:
   ShellCommandRequirement: {}
 hints:
   DockerRequirement:
-    dockerPull: ncbi/edirect:latest
+    dockerPull: ncbi/edirect:12.5
 
 baseCommand: [bash]
 

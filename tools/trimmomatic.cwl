@@ -8,7 +8,7 @@ requirements:
     coresMin: $(inputs.nthreads)
 hints:
   DockerRequirement:
-    dockerPull: staphb/trimmomatic:latest
+    dockerPull: staphb/trimmomatic:0.39
  
 baseCommand: [trimmomatic]
 
