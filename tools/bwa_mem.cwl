@@ -32,7 +32,7 @@ inputs:
     inputBinding:
       position: 3
   threads:
-    default: 1
+    default: 2
     type: int?
     inputBinding:
       position: 4
