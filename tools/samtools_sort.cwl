@@ -24,6 +24,13 @@ inputs:
     inputBinding:
       position: 2
       prefix: '-o'
+  output_format:
+    type: string
+    default: "BAM"
+    inputBinding:
+      position: 3
+      prefix: '-O'
+
 outputs:
   sorted:
     type: File

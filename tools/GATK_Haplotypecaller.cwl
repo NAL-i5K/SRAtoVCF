@@ -48,7 +48,7 @@ inputs:
         prefix: '-ERC'
         position: 7
     creat_variant_index:
-      default: "FALSE"
+      default: "TRUE"
       type: boolean?
       inputBinding:
         prefix: '--create-output-variant-index'

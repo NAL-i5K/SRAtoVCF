@@ -41,7 +41,7 @@ inputs:
       prefix: '--select-type-to-include' 
   creat_index: 
     type: string?
-    default: "FALSE" 
+    default: "TRUE" 
     inputBinding:
       position: 9
       prefix: '--create-output-variant-index' 
@@ -57,8 +57,6 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.output)
-  vcf_tbi:
-    type: File?
-    outputBinding:
-      glob: $(inputs.output).tbi
+    secondaryFiles:
+      - .tbi
   
