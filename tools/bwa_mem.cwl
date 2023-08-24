@@ -28,7 +28,7 @@ inputs:
     inputBinding:
       position: 2
   read_R:
-    type: File
+    type: File?
     inputBinding:
       position: 3
   threads:

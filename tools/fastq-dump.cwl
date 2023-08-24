@@ -46,7 +46,7 @@ outputs:
     outputBinding:
       glob: "*fastq*"
   forward:
-    type: File?
+    type: File
     outputBinding:
       glob: "*_1.fastq*"
   reverse:

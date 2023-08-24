@@ -105,7 +105,7 @@ inputs:
 
 outputs:
   out_bam:
-    type: File?
+    type: File
     secondaryFiles:
       - ^.bai
     outputBinding:
