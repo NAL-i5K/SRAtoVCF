@@ -33,24 +33,12 @@ inputs:
     inputBinding:
       position: 5
       prefix: '--exclude-filtered'
-  select_type_SNP: 
-    type: boolean?
-    default: FALSE
+  select_type: 
+    type: string?
+    default: "SNP"
     inputBinding:
-      position: 6
-      prefix: '--select-type-to-include SNP' 
-  select_type_INDEL: 
-    type: boolean?
-    default: FALSE
-    inputBinding:
-      position: 7
-      prefix: '--select-type-to-include INDEL'
-  select_type_MIXED: 
-    type: boolean?
-    default: FALSE
-    inputBinding:
-      position: 8
-      prefix: '--select-type-to-include MIXED'
+      position: 1
+      prefix: '--select-type-to-include' 
   creat_index: 
     type: string?
     default: "FALSE" 

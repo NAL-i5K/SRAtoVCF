@@ -38,12 +38,8 @@ inputs:
         type: string
     creat_variant_index:
         type: boolean
-    select_type_SNP:
-        type: boolean
     select_type_INDEL:
-        type: boolean
-    select_type_MIXED:
-        type: boolean
+        type: string
     filter_expression_SNP:
         type: string
     filter_expression_INDEL:
@@ -160,7 +156,6 @@ steps:
                 source: GATK_HaplotypeCaller/output_file
             reference: 
                 source: ref_genome
-            select_type_SNP: select_type_SNP
             output:
                 source: SRA_accession
                 valueFrom: ${ return self + "_SNP.vcf.gz"}
@@ -172,8 +167,7 @@ steps:
                 source: GATK_HaplotypeCaller/output_file
             reference: 
                 source: ref_genome
-            select_type_INDEL: select_type_INDEL
-            select_type_MIXED: select_type_MIXED
+            select_type: select_type_INDEL
             output:
                 source: SRA_accession
                 valueFrom: ${ return self + "_INDEL.vcf.gz"}
