@@ -18,6 +18,26 @@ A pipeline for converting short-read DNA data from SRA into VCF files
 ### On HPC
 * conda
 
+## The input parameter in the workflow (main.cwl)
+| Input | Description |
+| --- | --- |
+| `ref_genome` | File path. Reference genome |
+| `SRA_acession` | String. SRA accession for the data you want to process. |
+| `input_adapters_file` | File path. The file contains the adapter sequence for Trimmomatic to trim. |
+| `removeDuplicates` | Boolean. Whether to remove duplicates. |
+| `ReadGroupID` | String. Read group identifier. ID must be unique. |
+| `ReadGroupLibrary` | String. DNA preparation library identifier. |
+| `ReadGroupPlatformUnit` | String. Platform Unit. |
+| `ReadGroupPlatform` | String. Platform/technology used to produce the read. |
+| `ReadGroupSampleName` | String. The name of the sample sequenced in this read group. |
+| `CREATE_INDEX` | Boolean. Whether or not to create an index file for the BAM file after adding readgroup information. |
+| `creat_variant_index` |  Boolean. Whether to create index file for HaplotypeCaller output. |
+| `select_type_INDEL` | String. To select the INDEL form the HaplotypeCaller output vcf file.|
+| `filter_expression_SNP` | String. The criteria for filtering SNPs. |
+| `filter_expression_INDEL` | String. The criteria for filtering INDELs. |
+| `exclude_filtered` | Boolean. Whether to remove duplicates. |
+| `creat_index` | Boolean. Whether to create index file for the SortVcf vcf output. |
+
 ## Running on HPC
 ### Step 1. Set up conda environment
 First, we need to install the runner for the pipeline called cwltool to compile the pipeline. Therefore we have to set up a conda environment.
