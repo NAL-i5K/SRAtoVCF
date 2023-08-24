@@ -19,6 +19,7 @@ A pipeline for converting short-read DNA data from SRA into VCF files
 * conda
 
 ## The input parameter in the workflow (main.cwl)
+The table shows the parameter settings for workflow.
 | Input | Description |
 | --- | --- |
 | `ref_genome` | File path. Reference genome |
@@ -37,8 +38,9 @@ A pipeline for converting short-read DNA data from SRA into VCF files
 | `filter_expression_INDEL` | String. The criteria for filtering INDELs. |
 | `exclude_filtered` | Boolean. Whether to remove duplicates. |
 | `creat_index` | Boolean. Whether to create index file for the SortVcf vcf output. |
+*The parameters to create an index file should not be changed, and it should keep with TRUE.
 
-## Running on HPC
+## Running on HPC (Cere)
 ### Step 1. Set up conda environment
 First, we need to install the runner for the pipeline called cwltool to compile the pipeline. Therefore we have to set up a conda environment.
 
@@ -56,17 +58,23 @@ Now we are inside the cwltool environment and can install the cwltool.
 conda install -c conda-forge cwltool
 conda install -c conda-forge cwl-utils #dependency
 ```
+
 ### Step 2. Download the singularity
 Due to running on HPC, we need to use the singularity rather than the docker.
 
 First, create a folder in your working directory to store the singularities that needed for the workflow and run the following code:
 ```
-module load singularityCE #or singularity (depend on the HPC)
+module load apptainer (singularityCE #or singularity (depend on the HPC))
 cwl-docker-extract --singularity DIRECTORY ../workflow/main.cwl
 export CWL_SINGULARITY_CACHE=your/sifDirectory/Path
 ```
-If your computing node has internet, you can skip the cwl-docker-extract step and just load the singularityCE module.
+If your computing node has internet, you can skip the cwl-docker-extract step and just load the apptainer (singularityCE) module.
 
+**There are a few things to set up when using singularity.**
+
+1. Set `CWL_SINGULARITY_CACHE`. to the folder containing all .sif files. This will make the cwl runtime automatically fetch the singularity container with this path.
+2. Set `SINGULARITY_CACHEDIR`. The default path is under the home directory, but the process will generate many files, resulting in insufficient storage space in the home directory. Therefore, this path needs to be in the project directory.
+   
 ### Step3. Run the workflow
 **Download the organisum related SRA metadata on NCBI**
 ```
