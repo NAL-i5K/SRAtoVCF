@@ -17,11 +17,15 @@ inputs:
     inputBinding:
       position: 3
       prefix: '-I'
+    secondaryFiles:
+      - .tbi
   vcf_file_INDEL:
     type: File
     inputBinding:
       position: 4
       prefix: '-I'
+    secondaryFiles:
+      - .tbi
   output:
     type: string
     inputBinding:
@@ -40,3 +44,5 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.output)
+    secondaryFiles:
+      - .tbi
