@@ -27,6 +27,12 @@ inputs:
     inputBinding:
       position: 5
       prefix: '-O'
+  creat_variant_index:
+      default: "TRUE"
+      type: boolean?
+      inputBinding:
+        prefix: '--CREATE_INDEX'
+        position: 6
   
 
 outputs:
