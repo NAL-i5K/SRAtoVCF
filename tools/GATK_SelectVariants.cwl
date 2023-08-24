@@ -58,5 +58,6 @@ outputs:
     outputBinding:
       glob: $(inputs.output)
     secondaryFiles:
-      - .tbi
+      - .tbi?
+
   
