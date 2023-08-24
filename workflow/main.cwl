@@ -219,15 +219,12 @@ steps:
             output:
                 source: SRA_accession
                 valueFrom: ${ return self + "_filtered.vcf.gz"}
-        out: [vcf, vcf_tbi]
+        out: [vcf]
 
 outputs:
     vcf:
         type: File
         outputSource: GATK_SelectVariants/vcf
-    vcf_tbi:
-        type: File
-        outputSource: GATK_SelectVariants/vcf_tbi
     fastqc1_html:
         type: File
         outputSource: FastQC_F/report_html
