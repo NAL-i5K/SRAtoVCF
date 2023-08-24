@@ -37,7 +37,7 @@ inputs:
             position: 5
             prefix: '-O'
     threads:
-      default: 1
+      default: 2
       type: int
       inputBinding:
         position: 6
