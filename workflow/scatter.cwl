@@ -14,9 +14,9 @@ inputs:
         secondaryFiles:
             - .amb
             - .ann
-            - .bwt
+            - .bwt.2bit.64
             - .pac
-            - .sa
+            - '.0123'
             - .fai
             - ^.dict  
     SRA_accession:
