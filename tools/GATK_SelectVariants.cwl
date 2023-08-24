@@ -35,19 +35,19 @@ inputs:
       prefix: '--exclude-filtered'
   select_type_SNP: 
     type: boolean?
-    default: "FALSE"
+    default: FALSE
     inputBinding:
       position: 6
       prefix: '--select-type-to-include SNP' 
   select_type_INDEL: 
     type: boolean?
-    default: "FALSE"
+    default: FALSE
     inputBinding:
       position: 7
       prefix: '--select-type-to-include INDEL'
   select_type_MIXED: 
     type: boolean?
-    default: "FALSE"
+    default: FALSE
     inputBinding:
       position: 8
       prefix: '--select-type-to-include MIXED'
