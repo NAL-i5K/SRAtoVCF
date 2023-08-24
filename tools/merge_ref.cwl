@@ -9,7 +9,7 @@ requirements:
       - entry: $(inputs.ref_bwa_ann)
       - entry: $(inputs.ref_bwa_bwt)
       - entry: $(inputs.ref_bwa_pac)
-      - entry: $(inputs.ref_bwa_sa)
+      - entry: $(inputs.ref_bwa_0123)
       - entry: $(inputs.ref_sam)
       - entry: $(inputs.ref_picard)
      
