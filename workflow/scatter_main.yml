@@ -1,10 +1,10 @@
 ref_genome:
   class: File
-  path: /project/nal_genomics/szu-ping.chen/test/SRAtoVCF/GCF_000146045.2_R64_genomic.fna
-SRA_accession: SRR23631020
+  path: [git clone path]/SRAtoVCF/GCF_000146045.2_R64_genomic.fna
+SRA_accession: [SRR23631020,SRR23631021]
 input_adapters_file:
   class: File
-  path: /project/nal_genomics/szu-ping.chen/test/SRAtoVCF/adapters/TruSeq3-PE.fa
+  path: [git clone path]/SRAtoVCF/adapters/TruSeq3-PE.fa
 removeDuplicates: 'TRUE'
 ReadGroupID: "1"
 ReadGroupLibrary: lib1
