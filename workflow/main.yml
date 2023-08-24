@@ -8,6 +8,7 @@ input_adapters_file:
 removeDuplicates: 'TRUE'
 ReadGroupID: "1"
 ReadGroupLibrary: lib1
+ReadGroupPlatformUnit: "unit1"
 ReadGroupPlatform: ILLUMINA
 ReadGroupSampleName: "1"
 CREATE_INDEX: "TRUE"

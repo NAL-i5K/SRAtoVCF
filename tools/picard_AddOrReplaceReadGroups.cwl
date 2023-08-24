@@ -55,7 +55,7 @@ inputs:
       prefix: '--RGPL'
 
   ReadGroupPlatformUnit:
-    type: string?
+    type: string
     inputBinding:
       position: 10
       prefix: '--RGPU'
@@ -94,7 +94,7 @@ inputs:
     type: string?
     inputBinding:
       position: 16
-      prefix: "--RGPG"
+      prefix: '--RGPG'
 
   ReadGroupPlatformModel:
     type: string?

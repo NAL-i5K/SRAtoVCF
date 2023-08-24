@@ -30,6 +30,8 @@ inputs:
         type: string
     ReadGroupPlatform:
         type: string
+    ReadGroupPlatformUnit:
+        type: string
     ReadGroupSampleName: 
         type: string
     CREATE_INDEX:
@@ -132,6 +134,7 @@ steps:
             ReadGroupID: ReadGroupID
             ReadGroupLibrary: ReadGroupLibrary
             ReadGroupPlatform: ReadGroupPlatform
+            ReadGroupPlatformUnit: ReadGroupPlatformUnit
             ReadGroupSampleName: ReadGroupSampleName
             CREATE_INDEX: CREATE_INDEX
         out: [out_bam]
