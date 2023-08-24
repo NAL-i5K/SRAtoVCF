@@ -29,7 +29,7 @@ inputs:
       prefix: '-O'
   creat_variant_index:
       default: "TRUE"
-      type: boolean?
+      type: string?
       inputBinding:
         prefix: '--CREATE_INDEX'
         position: 6
