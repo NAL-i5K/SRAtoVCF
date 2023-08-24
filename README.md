@@ -74,7 +74,8 @@ If your computing node has internet, you can skip the cwl-docker-extract step an
 **There are a few things to set up when using singularity.**
 
 1. Set `CWL_SINGULARITY_CACHE`. to the folder containing all .sif files. This will make the cwl runtime automatically fetch the singularity container with this path.
-2. Set `APPTAINER_CACHEDIR`. The default path is under the home directory, but the process will generate many files, resulting in insufficient storage space in the home directory. Therefore, this path needs to be in the project directory. (Using singularityCE or singularity `APPTAINER_CACHEDIR` -> `SINGULARITY_CACHEDIR`
+2. Set `APPTAINER_CACHEDIR`. The default path is under the home directory, but the process will generate many files, resulting in insufficient storage space in the home directory. Therefore, this path needs to be in the project directory.
+(Using singularityCE or singularity `APPTAINER_CACHEDIR` -> `SINGULARITY_CACHEDIR`)
    
 ### Step3. Run the workflow
 **Download the organisum related SRA metadata on NCBI**
