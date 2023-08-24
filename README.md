@@ -38,6 +38,7 @@ The table shows the parameter settings for workflow.
 | `filter_expression_INDEL` | String. The criteria for filtering INDELs. |
 | `exclude_filtered` | Boolean. Whether to remove duplicates. |
 | `creat_index` | Boolean. Whether to create index file for the SortVcf vcf output. |
+
 *The parameters to create an index file should not be changed, and it should keep with TRUE.
 
 ## Running on HPC (Cere)
