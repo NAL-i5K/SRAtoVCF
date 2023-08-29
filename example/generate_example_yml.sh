@@ -5,7 +5,7 @@ read -p "Enter git clone path: " git_clone_path
 
 content="ref_genome:
   class: File
-  path: $git_clone_path/SRAtoVCF/data/GCF_000146045.2_R64_genomic.fna
+  path: $git_clone_path/SRAtoVCF/example/GCF_000146045.2_R64_genomic.fna
 SRA_accession: SRR23631020
 input_adapters_file:
   class: File
