@@ -105,4 +105,23 @@ change the code to:
 cwltool --no-container ...
 ```
 
+## Example
+In the test example, we utilize the yeast data as an example. The example folder contains the reference sequence of R64, and the processed SRA accession is SRR23631020.
+
+First, create the index file for the reference genome. (Remember to complete the setting first and run the command in the example directory.)
+```
+ cwltool --singularity ../workflow/prep_ref.cwl --ref_genome GCF_000146045.2_R64_genomic.fna
+
+```
+Second, generate the example YAML file for the main.cwl (main variant calling pipeline) by generate_example_yml.sh.
+```
+sh generate_example_yml.sh.
+#it will print out Enter git clone path:
+#if your git clone path is /path/to/git/clone you should just enter it.
+```
+Finally, run the main.cwl by following the command.
+```
+cwltool --singularity ../workflow/main.cwl example.yaml
+```
+
 
