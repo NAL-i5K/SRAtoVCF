@@ -52,7 +52,7 @@ conda create --name cwltool
 ```
 Next time just has to activate the environment. To activate the environment:
 ```
- source activate cwltool
+conda activate cwltool
 ```
 Now we are inside the cwltool environment and can install the cwltool.
 ```
@@ -104,6 +104,70 @@ change the code to:
 #original cwltool --singularity ....
 cwltool --no-container ...
 ```
+
+## Build a shared conda environment and singularity image files
+For multiple users to run the pipeline on HPC, it can create a shared conda environment for all the users. It can save some storage space.
+### For conda environment
+### Step 1. Create a conda environment in a shared directory.
+```
+conda create --prefix=SharedDirectoryPath/envname
+```
+### Step 2. Set up the environment variable and module in conda environment
+Create the file for the environment setting.
+```
+cd SharedDirectoryPath/envname
+mkdir -p ./etc/conda/activate.d
+mkdir -p ./etc/conda/deactivate.d
+touch ./etc/conda/activate.d/env_vars.sh
+touch ./etc/conda/deactivate.d/env_vars.sh
+```
+Edit the environment setting when using the environment (./etc/conda/activate.d/env_vars.sh) as follow:
+```
+#!/bin/sh
+module load apptainer
+export CWL_SINGULARITY_CACHE=/project/nal_genomics/shared_files/SRAtoVCF/sif
+```
+If there are other settings you want to add, you can modify the content yourself.
+Edit the environment setting  (./etc/conda/deactivate.d/env_vars.sh) as follow:
+```
+#!/bin/sh
+module unload apptainer
+unset CWL_SINGULARITY_CACHE
+```
+It will reset the setting when we leave the conda environment.
+### Step 3. install cwltool
+```
+conda activate SharedDirectoryPath/envname
+```
+Now we are inside the cwltool environment and can install the cwltool.
+```
+conda install -c conda-forge cwltool
+conda install -c conda-forge cwl-utils #dependency
+```
+You can check if the environment settings are right:
+```
+module list
+#output
+#Currently Loaded Modules:
+  #1) miniconda/4.12.0   2) apptainer/1.2.2
+echo $CWL_SINGULARITY_CACHE
+#output
+#/PathtoSharedSiFFolder
+```
+### Step 4. Leave conda environment
+```
+conda deactivate
+```
+### For shared singularity image files
+### Step 1. Create a folder to store the singularity image files (sifs) in a shared directory and pull the sifs.
+```
+cd PathtoStoretheSingularityImageFiles
+mkdir sif
+cd sif
+cwl-docker-extract --singularity . Pathto/workflow/main.cwl
+```
+### Step 1. Set the environment variable in conda env_var.sh file.
+Just like the conda environment Step 2.
 
 ## Example
 In the test example, we utilize the yeast data as an example. The example folder contains the reference sequence of R64, and the processed SRA accession is SRR23631020.
