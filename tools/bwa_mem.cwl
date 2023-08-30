@@ -7,7 +7,7 @@ requirements:
     coresMin: $(inputs.threads)
 hints:
   DockerRequirement:
-    dockerPull: "docker://quay.io/biocontainers/bwa-mem2:2.2.1--hd03093a_5"
+    dockerPull: "quay.io/biocontainers/bwa-mem2:2.2.1--hd03093a_5"
 
 inputs:
   reference:
