@@ -107,7 +107,7 @@ cwltool --no-container ...
 
 ## Build a shared conda environment and singularity image files
 For multiple users to run the pipeline on HPC, it can create a shared conda environment for all the users. It can save some storage space.
-### For conda environment
+### For conda environment [Ref.](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment)
 ### Step 1. Create a conda environment in a shared directory.
 ```
 conda create --prefix=SharedDirectoryPath/envname
@@ -168,7 +168,7 @@ cwl-docker-extract --singularity . Pathto/workflow/main.cwl
 ```
 ### Step 1. Set the environment variable in conda env_var.sh file.
 Just like the conda environment Step 2.
-
+However, the `APPTAINER_CACHEDIR` still have to be setted by each user, because it has to be unique to user. [Ref.](https://docs.sylabs.io/guides/latest/user-guide/build_env.html)
 ## Example
 In the test example, we utilize the yeast data as an example. The example folder contains the reference sequence of R64, and the processed SRA accession is SRR23631020.
 
