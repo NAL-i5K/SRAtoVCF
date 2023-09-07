@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/647627225.svg)](https://zenodo.org/badge/latestdoi/647627225)
 # SRAtoVCF
 A pipeline for converting short-read DNA data from SRA into VCF files
 
